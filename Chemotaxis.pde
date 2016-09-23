@@ -1,5 +1,6 @@
 Bacteria[]colony;
 Virus patho;
+int target = (int)(Math.random()*51);
  void setup()   
  {      
  	size(500,500);
@@ -16,10 +17,19 @@ Virus patho;
  	for(int i=0; i<colony.length;i++)
  	{
  		colony[i].move();
- 		colony[i].show();
+ 		if(colony[i].myColor != color(224,255,255))
+ 		{
+ 			colony[i].show();
+ 		}
  	}
  	patho.move();
  	patho.show();
+ 	if(colony[target].myColor == color(224,255,255))
+ 	{
+ 		patho.hunt();
+ 		patho.move();
+ 		patho.show();
+ 	}
  }  
  class Bacteria    
  {     
@@ -32,12 +42,20 @@ Virus patho;
  	}
  	void move()
  	{
- 		myX = myX + (int)(Math.random()*7)-3;
- 		myY = myY + (int)(Math.random()*7)-3;
+ 		myX = myX + ((int)(Math.random()*7)-3);
+ 		myY = myY + ((int)(Math.random()*7)-3);
  	}
  	void show()
  	{
- 		fill(myColor);
+ 		if(((patho.myX == myX)&&(patho.myY == myY))||(myColor == color(224,255,255)))
+ 		{
+ 			myColor = color(224,255,255);
+ 			fill(myColor);
+ 		}
+ 		else 
+ 		{	
+ 			fill(myColor);
+ 		}
  		ellipse(myX,myY,20,20);
  	}
  }
@@ -46,7 +64,7 @@ Virus patho;
  	int myX; int myY; Bacteria myTarget;
  	Virus()
  	{
- 		myTarget = colony[(int)(Math.random()*51)];
+ 		myTarget = colony[target];
  		myX = (int)(Math.random()*501);
  		myY = (int)(Math.random()*501);
  	}
@@ -74,5 +92,9 @@ Virus patho;
  	{
  		fill(255,0,0);
  		rect(myX,myY,10,10);
+ 	}
+ 	void hunt()
+ 	{
+ 		target = (int)(Math.random()*51);
  	}
  }
